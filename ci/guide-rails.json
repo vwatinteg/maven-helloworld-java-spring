@@ -1,0 +1,175 @@
+{
+	"metadata": {
+		"version": 2
+	},
+	"application": {
+		"name": "simple-hello-world-java",
+		"language": "JAVA",
+		"artifact_store": {
+			"type": "s3",
+			"repositories": [
+				{
+					"category": "rc-packaging",
+					"bucket": "guide-rails-calculi-rc"
+				},
+				{
+					"category": "final-packaging",
+					"bucket": "guide-rails-calculi-final"
+				},
+				{
+					"category": "logs",
+					"bucket": "guide-rails-calculi-logs"
+				}
+			]
+		}
+	},
+	"pipeline": {
+		"segments": [
+			{
+				"name": "Build",
+				"segment_type": "build",
+				"exit_actions": {
+					"default": {
+						"fetch_logs": true,
+						"code_analysis": {
+							"publish": true,
+							"properties": null
+						},
+						"delete_instances": true
+					},
+					"on_success": {
+						"code_analysis": null
+					},
+					"on_failure": {
+						"code_analysis": null
+					},
+					"on_abort": {
+						"code_analysis": null
+					}
+				},
+				"deployment_strategy": {
+					"canary_watch_time": "",
+					"update_watch_time": "",
+					"serial": false
+				},
+				"application_init": {},
+				"packages": [
+					{
+						"name": "HelloWorld",
+						"downloads": [],
+						"files": [
+							"target/HelloWorld*"
+						]
+					},
+					{
+						"name": "jdk",
+						"downloads": [
+							{
+								"link": "https://s3.amazonaws.com/calculi-middleware/jdk-((jdk.version))_linux-x64_bin.tar.gz",
+								"name": "jdk.tar.gz"
+							}
+						],
+						"package_install_command": "tar xzf jdk/jdk.tar.gz\ncp -Rf jdk-((jdk.version))/* ${BOSH_INSTALL_TARGET}"
+					}
+				],
+				"instance_tags": [
+					{
+						"name": "application.name",
+						"value": "((application.name))"
+					}
+				],
+				"post_deployment_actions": {
+					"loadbalancer": {}
+				},
+				"cache_info": {},
+				"tasks": [
+					{
+						"name": "simple-hello-world-java",
+						"steps": [
+							{
+								"name": "build",
+								"definition": "build",
+								"command": "mvn compile\nls",
+								"properties": null
+							},
+							{
+								"name": "test",
+								"definition": "test",
+								"command": "mvn surefire-report:report \ncat ./target/surefire-reports/TEST-com.javacodegeeks.example.HelloWorldApplicationTests.xml \ncp ./target/surefire-reports/TEST-com.javacodegeeks.example.HelloWorldApplicationTests.xml ./test.xml\nmvn cobertura:cobertura  -Dcobertura.report.format=xml  -Dcobertura.aggregate=true install -e",
+								"properties": null
+							},
+							{
+								"name": "create jar",
+								"definition": "create jar",
+								"command": "mvn package",
+								"properties": null
+							},
+							{
+								"name": "list contents",
+								"definition": "list contents",
+								"command": "ls -R\n",
+								"properties": null
+							},
+							{
+								"name": "print env",
+								"definition": "print env",
+								"command": "echo \"hello world\"",
+								"properties": null
+							}
+						]
+					}
+				]
+			}
+		],
+		"exit_actions": {
+			"default": {
+				"fetch_logs": true,
+				"code_analysis": {
+					"publish": true,
+					"properties": []
+				},
+				"delete_instances": true
+			},
+			"on_success": {
+				"code_analysis": null
+			},
+			"on_failure": {
+				"code_analysis": null
+			},
+			"on_abort": {
+				"code_analysis": null
+			}
+		},
+		"default_properties": [
+			{
+				"name": "jdk.version",
+				"value": "12",
+				"type": "string"
+			},
+			{
+				"name": "source_dirs",
+				"value": "./",
+				"type": "string"
+			}
+		],
+		"deployment_files": [
+			{
+				"source_path": "ci/bin/start-service.sh",
+				"target_path": "bin/start-service.sh"
+			},
+			{
+				"source_path": "ci/bin/integration-test.sh",
+				"target_path": "bin/integration-test.sh"
+			}
+		],
+		"application_init": {},
+		"process": {
+			"init": {
+				"command": "bin/start-service.sh"
+			}
+		}
+	},
+	"organization": {
+		"orgname": "Tutorial"
+	}
+}
