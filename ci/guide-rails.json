@@ -142,6 +142,11 @@
 		},
 		"default_properties": [
 			{
+				"name": "gr.sonarscanner.after_build",
+				"value": "true",
+				"type": "boolean"
+			},
+			{
 				"name": "jdk.version",
 				"value": "12",
 				"type": "string"
