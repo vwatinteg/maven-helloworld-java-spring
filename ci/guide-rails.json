@@ -89,7 +89,7 @@
 							{
 								"name": "build",
 								"definition": "build",
-								"command": "mavenVersion=3.8.6\nhttp://mirrors.gigenet.com/apache/maven/maven-3/$mavenVersion/binaries/apache-maven-$mavenVersion-bin.tar.gz\n\ntar xvf apache-maven-$mavenVersion-bin.tar.gz\n\nexport MAVEN_HOME=${PWD}/apache-maven-\"$mavenVersion\"\n\nexport PATH=$PATH:$MAVEN_HOME/bin\n\nmvn compile\nls",
+								"command": "mavenVersion=3.8.6\ncurl -O http://mirrors.gigenet.com/apache/maven/maven-3/$mavenVersion/binaries/apache-maven-$mavenVersion-bin.tar.gz\n\ntar xvf apache-maven-$mavenVersion-bin.tar.gz\n\nexport MAVEN_HOME=${PWD}/apache-maven-\"$mavenVersion\"\n\nexport PATH=$PATH:$MAVEN_HOME/bin\n\nmvn compile\nls",
 								"properties": null
 							},
 							{
