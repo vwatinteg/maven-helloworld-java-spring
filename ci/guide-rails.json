@@ -118,7 +118,7 @@
 							}
 						],
 						"docker_options": {
-							"repository": "library/amazoncorretto:latest"
+							"repository": "dockerhub-proxy/library/maven"
 						}
 					}
 				]
