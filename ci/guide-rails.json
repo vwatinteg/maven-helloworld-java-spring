@@ -89,26 +89,10 @@
 							{
 								"name": "build",
 								"definition": "build",
-								"command": "echo \"========== ENV ===========\"\nenv | sort\n\n\nmavenVersion=3.8.6\ncurl -O http://mirrors.gigenet.com/apache/maven/maven-3/$mavenVersion/binaries/apache-maven-$mavenVersion-bin.tar.gz\n\ntar xvf apache-maven-$mavenVersion-bin.tar.gz\n\nexport MAVEN_HOME=${PWD}/apache-maven-\"$mavenVersion\"\n\nexport PATH=$PATH:$MAVEN_HOME/bin\n\nmvn compile\nls\n\n\necho \"============= Running Tests ============\"\n\nmvn surefire-report:report \ncat ./target/surefire-reports/TEST-com.javacodegeeks.example.HelloWorldApplicationTests.xml \ncp ./target/surefire-reports/TEST-com.javacodegeeks.example.HelloWorldApplicationTests.xml ./test.xml\nmvn cobertura:cobertura  -Dcobertura.report.format=xml  -Dcobertura.aggregate=true install -e\n\n\necho \"============= Creating JAR ============\"\nmvn package\n",
-								"properties": null
-							},
-							{
-								"name": "list contents",
-								"definition": "list contents",
-								"command": "ls -R\n",
-								"properties": null
-							},
-							{
-								"name": "print env",
-								"definition": "print env",
-								"command": "echo \"hello world\"",
+								"command": "mvn package -DskipTests",
 								"properties": null
 							}
-						],
-						"docker_options": {
-							"docker_registry_alias_id": "50258082-3479-4672-5d14-a150702df83e",
-							"repository": "dockerhub-proxy/library/openjdk"
-						}
+						]
 					}
 				]
 			}
