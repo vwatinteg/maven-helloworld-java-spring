@@ -118,7 +118,7 @@
 							}
 						],
 						"docker_options": {
-							"repository": "amazoncorretto:latest"
+							"repository": "library/amazoncorretto:latest"
 						}
 					}
 				]
