@@ -116,7 +116,10 @@
 								"command": "echo \"hello world\"",
 								"properties": null
 							}
-						]
+						],
+						"docker_options": {
+							"repository": "amazoncorretto:latest"
+						}
 					}
 				]
 			}
