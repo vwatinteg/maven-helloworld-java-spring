@@ -118,6 +118,7 @@
 							}
 						],
 						"docker_options": {
+							"docker_registry_alias_id": "50258082-3479-4672-5d14-a150702df83e",
 							"repository": "dockerhub-proxy/library/maven"
 						}
 					}
