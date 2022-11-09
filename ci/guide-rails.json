@@ -89,7 +89,7 @@
 							{
 								"name": "build",
 								"definition": "build",
-								"command": "mvn package -DskipTests\nls",
+								"command": "mvn package -DskipTests\n",
 								"properties": null
 							}
 						]
